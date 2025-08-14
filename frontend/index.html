@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Hola Mundo Angular</title>
+  <base href="/" />
+</head>
+<body>
+  <app-root>Loading...</app-root>
+  <script type="module">
+    import 'https://cdn.jsdelivr.net/npm/zone.js@0.14.7/dist/zone.min.js';
+    import { Component, importProvidersFrom, bootstrapApplication } from 'https://cdn.jsdelivr.net/npm/@angular/core@17/fesm2022/core.mjs';
+    import { BrowserModule } from 'https://cdn.jsdelivr.net/npm/@angular/platform-browser@17/fesm2022/platform-browser.mjs';
+
+    @Component({
+      selector: 'app-root',
+      standalone: true,
+      template: `<h1>{{message}}</h1>`
+    })
+    class AppComponent {
+      message = 'Cargando...';
+      constructor() {
+        fetch('/api/hello')
+          .then(r => r.json())
+          .then(d => this.message = d.message)
+          .catch(() => this.message = 'Hola Mundo');
+      }
+    }
+
+    bootstrapApplication(AppComponent, {
+      providers: [importProvidersFrom(BrowserModule)]
+    });
+  </script>
+</body>
+</html>
